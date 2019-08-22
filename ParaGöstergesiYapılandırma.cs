@@ -8,7 +8,7 @@ namespace DaeParaGostergesi
 
         public bool BakiyedekiKüsuratıGizle { get; set; }
         public decimal GizlemekİçinMinimumBakiye { get; set; }
-        
+
         public string BakiyeRengi { get; set; }
         public string ParaBirimi { get; set; }
         public string ParaBirimiRengi { get; set; }
@@ -23,7 +23,7 @@ namespace DaeParaGostergesi
             BakiyedekiKüsuratıGizle = false;
             GizlemekİçinMinimumBakiye = 100000.00m;
             
-            BakiyeRengi = "00FF00";
+            BakiyeRengi = "FFFFFF";
             ParaBirimi = "TRY";
             ParaBirimiRengi = "00FF00";
 
