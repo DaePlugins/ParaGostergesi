@@ -10,7 +10,7 @@ namespace DaeParaGostergesi
     {
         public AllowedCaller AllowedCaller => AllowedCaller.Player;
         public string Name => "para";
-        public string Help => "Paranı karakter bilgilerinin üstünde gösterir.";
+        public string Help => "Para göstergesini açıp kapatır.";
         public string Syntax => "/para";
         public List<string> Aliases => new List<string>();
         public List<string> Permissions => new List<string>{ "dae.paragostergesi.para" };

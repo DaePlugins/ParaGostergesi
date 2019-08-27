@@ -87,7 +87,7 @@ namespace DaeParaGostergesi
 
             U.Events.OnPlayerConnected -= OyuncuBağlandığında;
         }
-        
+
         private void TecrübeGüncellendiğinde(UnturnedPlayer oyuncu, uint tecrübe)
         {
             if (!EfektiAlmayacakOyuncular.Contains(oyuncu.CSteamID.m_SteamID))
