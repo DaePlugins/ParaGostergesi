@@ -10,14 +10,14 @@ using Rocket.Unturned.Player;
 using SDG.Unturned;
 using Steamworks;
 using fr34kyn01535.Uconomy;
-using Harmony;
+using HarmonyLib;
 
 namespace DaeParaGostergesi
 {
 	public class ParaGöstergesi : RocketPlugin<ParaGöstergesiYapılandırma>
     {
         public static ParaGöstergesi Örnek { get; private set; }
-        private HarmonyInstance _harmony;
+        private Harmony _harmony;
 
 		private string _paraBirimi = "";
 
@@ -59,8 +59,8 @@ namespace DaeParaGostergesi
             }
             else
             {
-                _harmony = HarmonyInstance.Create("dae.paragostergesi");
-                _harmony.PatchAll(Assembly.GetExecutingAssembly());
+                _harmony = new Harmony("dae.paragostergesi");
+                _harmony.PatchAll();
             }
 			
             U.Events.OnPlayerConnected += OyuncuBağlandığında;
