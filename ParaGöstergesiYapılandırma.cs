@@ -1,4 +1,6 @@
-﻿using Rocket.API;
+﻿using System.Collections.Generic;
+using DaeParaGostergesi.Modeller;
+using Rocket.API;
 
 namespace DaeParaGostergesi
 {
@@ -16,6 +18,9 @@ namespace DaeParaGostergesi
         public bool XpKullanılsın { get; set; }
         public bool XpKullanılırkenParaBiriminiGizle { get; set; }
 
+        public string MevcutParaBirimi { get; set; }
+        public List<ParaBirimi> ParaBirimleri { get; set; } = new List<ParaBirimi>();
+
         public void LoadDefaults()
         {
             EfektIdsi = 15962;
@@ -29,6 +34,20 @@ namespace DaeParaGostergesi
 
             XpKullanılsın = true;
             XpKullanılırkenParaBiriminiGizle = true;
+
+            MevcutParaBirimi = "TRY";
+            ParaBirimleri = new List<ParaBirimi>
+            {
+                new ParaBirimi("TRY", "₺"),
+                new ParaBirimi("USD", "$"),
+                new ParaBirimi("EUR", "€"),
+                new ParaBirimi("JPY", "¥"),
+                new ParaBirimi("GBP", "£"),
+                new ParaBirimi("CHF", "₣"),
+                new ParaBirimi("CNY", "元"),
+                new ParaBirimi("WON", "₩"),
+                new ParaBirimi("RUB", "₽")
+            };
         }
     }
 }

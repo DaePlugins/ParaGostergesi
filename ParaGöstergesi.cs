@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
+using System.Linq;
+using DaeParaGostergesi.Modeller;
 using Rocket.API.Collections;
 using Rocket.Core.Plugins;
 using Rocket.Unturned;
@@ -19,20 +20,7 @@ namespace DaeParaGostergesi
         public static ParaGöstergesi Örnek { get; private set; }
         private Harmony _harmony;
 
-		private string _paraBirimi = "";
-
-        private readonly Dictionary<string, string> _paraBirimleri = new Dictionary<string, string>(9)
-        {
-            { "try", "₺" },
-            { "usd", "$" },
-            { "eur", "€" },
-            { "jpy", "¥" },
-            { "gbp", "£" },
-            { "chf", "₣" },
-            { "cny", "元" },
-            { "won", "₩" },
-            { "rub", "₽" }
-        };
+        private string _mevcutParaBirimi;
 
         public List<ulong> EfektiAlmayacakOyuncular { get; } = new List<ulong>();
 
@@ -42,16 +30,13 @@ namespace DaeParaGostergesi
 
             if (!Configuration.Instance.XpKullanılsın || !Configuration.Instance.XpKullanılırkenParaBiriminiGizle)
             {
-                _paraBirimi = Translate("Format", _paraBirimleri.TryGetValue(Configuration.Instance.ParaBirimi.ToLower(), out var paraBirimi) ? paraBirimi : "₺", Configuration.Instance.ParaBirimiRengi);
+                _mevcutParaBirimi = (Configuration.Instance.ParaBirimleri.FirstOrDefault(p => p.Kısaltma == Configuration.Instance.MevcutParaBirimi) ?? new ParaBirimi("TRY", "₺")).Birim;
             }
 
-            foreach (var steamOyuncu in Provider.clients)
-			{
-                if (!EfektiAlmayacakOyuncular.Contains(steamOyuncu.playerID.steamID.m_SteamID))
-                {
-                    EfektiGönder(steamOyuncu.playerID.steamID, Configuration.Instance.XpKullanılsın ? steamOyuncu.player.skills.experience : Uconomy.Instance.Database.GetBalance(steamOyuncu.playerID.ToString()));
-                }
-			}
+            foreach (var steamOyuncu in Provider.clients.Where(s => !EfektiAlmayacakOyuncular.Contains(s.playerID.steamID.m_SteamID)))
+            {
+                EfektiGönder(steamOyuncu.playerID.steamID, Configuration.Instance.XpKullanılsın ? steamOyuncu.player.skills.experience : Uconomy.Instance.Database.GetBalance(steamOyuncu.playerID.ToString()));
+            }
 
             if (Configuration.Instance.XpKullanılsın)
             {
@@ -118,7 +103,8 @@ namespace DaeParaGostergesi
 
             bakiye = string.Format(CultureInfo.GetCultureInfo("tr-TR"), format, bakiye);
 
-            EffectManager.sendUIEffect(Configuration.Instance.EfektIdsi, 15962, steamId, true, Translate("Format", bakiye, Configuration.Instance.BakiyeRengi), _paraBirimi);
+            EffectManager.sendUIEffect(Configuration.Instance.EfektIdsi, 15962, steamId, true, Translate("Format", bakiye, Configuration.Instance.BakiyeRengi),
+                $"<color=#{Configuration.Instance.ParaBirimiRengi}>{_mevcutParaBirimi}</color>");
         }
 
         public override TranslationList DefaultTranslations => new TranslationList
