@@ -15,7 +15,7 @@ using HarmonyLib;
 
 namespace DaeParaGostergesi
 {
-	public class ParaGöstergesi : RocketPlugin<ParaGöstergesiYapılandırma>
+    public class ParaGöstergesi : RocketPlugin<ParaGöstergesiYapılandırma>
     {
         public static ParaGöstergesi Örnek { get; private set; }
         private Harmony _harmony;
@@ -26,7 +26,7 @@ namespace DaeParaGostergesi
 
         protected override void Load()
         {
-			Örnek = this;
+            Örnek = this;
 
             if (!Configuration.Instance.XpKullanılsın || !Configuration.Instance.XpKullanılırkenParaBiriminiGizle)
             {
@@ -47,10 +47,10 @@ namespace DaeParaGostergesi
                 _harmony = new Harmony("dae.paragostergesi");
                 _harmony.PatchAll();
             }
-			
+            
             U.Events.OnPlayerConnected += OyuncuBağlandığında;
         }
-		
+        
         protected override void Unload()
         {
             Örnek = null;
